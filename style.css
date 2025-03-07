@@ -43,3 +43,20 @@ pre {
     font-family: "Courier New", Courier, monospace;
     white-space: pre-wrap;
 }
+
+var {
+    font-family: Georgia;
+    font-size:16pt;
+}
+
+.math {
+    text-align: center;
+    font-family: Georgia;
+    font-size: 24pt;
+    font-style: italic;
+}
+
+canvas {
+    margin: auto;
+    padding: 20px;
+}

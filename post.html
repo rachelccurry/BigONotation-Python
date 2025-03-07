@@ -8,9 +8,11 @@
     <title>Blog: Big O Notation</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script src="graph.js"></script>
 <body>
     <div id="heading" class="heading">
-        <h1>Big O Notation - Python Examples</h1>
+        <h1>Big O Notation — Python Examples</h1>
         <h3>Rachel Curry</h3>
         <p>tags here</p>
     </div>
@@ -20,10 +22,31 @@
             an algorithm. This allows us to determine the <em>time</em> and <em>space</em> that an algorithm will need as its input changes. 
         </p>
         <p>
-            This article will cover some examples of Big O Notation in Python, including the Big O calculations of a single <code>for</code> loop,
+            This article will cover how the Big O Notation works, including some examples in Python: a single <code>for</code> loop,
             a nested <code>for</code> loop, and the built-in <code>map</code> iterator. We will also calculate the time complexity of
             the <strong>Minimax Algorithm</strong>, which can be used in many backtracking problems (such as Tic Tac Toe). At the end, there is 
             a bonus section that mathematically explains how many game states are possible on a 3x3 Tic Tac Toe board.
+        </p>
+    </div>
+    <div id="big-o-explained" class="main-text">
+        <h2>Big O Notation</h2>
+        <p>
+            In Big O Notation, a mathematical function is used to describe the behavior of an algorithm as its input 
+            size approaches infinity.
+        </p>
+        <p class="math">
+            f(x) = O(g(x)) as x → ∞
+        </p>
+        <p>
+            Consider the following graph, where <var>n</var> is the size of the input.
+        </p>
+        <canvas id="bigOGraph"></canvas>
+        <p>
+            If a function does not change the number of operations it performs regardless of input, then the time complexity can 
+            be described as O(1), where 
+        </p>
+        <p>
+            section about ignoring other aspects rather than dominanat one
         </p>
     </div>
     <div id="big-o-examples" class="main-text">
