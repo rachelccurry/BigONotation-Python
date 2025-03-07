@@ -18,7 +18,7 @@
     </div>
     <div id="intro-section" class="main-text">
         <p>
-            In computer science, the <strong>Big O Notation</strong> is a mathematical format to express the computational complexity of
+            In computer science, <strong>Big O Notation</strong> is a mathematical format to express the computational complexity of
             an algorithm. This allows us to determine the <em>time</em> and <em>space</em> that an algorithm will need as its input changes. 
         </p>
         <p>
@@ -40,24 +40,34 @@
         <p>
             Consider the following graph, where <var>n</var> is the size of the input.
         </p>
-        <canvas id="bigOGraph"></canvas>
+        <canvas id="bigOGraph" style="width:100%;max-width:600px"></canvas>
         <p>
             If a function does not change the number of operations it performs regardless of input, then the time complexity can 
-            be described as O(1), where 
+            be described as <var>O(1)</var>, where the complexity is constant. If the number of operations is directly proportional to the 
+            input value <var>n</var>, the time complexity is described as <var>O(n)</var>. 
         </p>
         <p>
-            section about ignoring other aspects rather than dominanat one
+            An algorithm's complexity can mathematically be any function, such as <var>f(n) = 6n<sup>2</sup>+4n</var>. However, in common
+            practice, Big O Notation is often the <em>upper bound</em> of an algorithm's complexity. This is because as the input size grows,
+            the <var>n<sup>2</sup></var> becomes the dominant multiplier, and all other terms will become arbitrary. Therefore, if the 
+            time complexity of an algorithm is <var>f(n) = 6n<sup>2</sup>+4n</var>, that can be  simplified to <var>O(n<sup>2</sup>)</var>.
         </p>
     </div>
     <div id="big-o-examples" class="main-text">
         <h2>Big O Python Examples</h2>
         <h3>Singular <code>for</code> Loop</h3>
-        <p>some text here</p>
+        <p>
+            Consider the below example. This function, <code>addup</code>, takes in <code>num</code> as its only function parameter. It 
+            goes on to a <code>for</code> loop, which goes around <code>num</code> times and sums the number of times it has looped.
+        </p>
         <pre><code>def addup(num):
         sum = 0
         for i in range(num):
             sum +=1
         return sum</code></pre>
+        <p>
+            
+        </p>
     </div>
     <div id="minimax-section" class="main-text">
         <h2>Minimax Algorithm</h2>
