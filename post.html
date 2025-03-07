@@ -70,7 +70,7 @@
         <p>
             The number of times this function will go through the <code>for</code> loop depends solely on what <code>num</code> is. If 
             <code>num</code> is 500,000,000, it will loop that many times. The number of calculations is directly proportional to the 
-            input value. Therefore, this function is <var>O(n)</var> where <var>n</var> is <code>num</code>.
+            input value. Therefore, this function's time complexity is <var>O(n)</var> where <var>n</var> is <code>num</code>.
         </p>
         <h3>Nested <code>for</code> Loop</h3>
         <p>
@@ -106,7 +106,7 @@
         <p>
             If it did not ignore these elements, it would essentially be accessing every element in a <var>n x n</var> matrix and printing them out.
             If that were the case, the time complexity would be <var>O(n<sup>2</sup>)</var>, because it accesses <var>n</var> elements <var>n</var>
-            times. But considering it ignores half of the elements in the figurative matrix, the time complexity is technically <var>(1/2)O(n<sup>2</sup>)</var>.
+            times. But considering it ignores half of the elements in the figurative matrix, the time complexity is technically <var>O(n<sup>2</sup>/2)</var>.
             However, the rule about constants still applies here! The <var>1/2</var> can be removed, because as <var>n</var> approaches infinity, the 
             <var>1/2</var> becomes arbitrary. Therefore, the time complexity of this nested <code>for</code> loop is <var>O(n<sup>2</sup>)</var>.
         </p>
@@ -118,11 +118,55 @@
         </p>
         <pre><code>def capitalize(arr):
         new_arr = list(map(str.upper, arr))
-        return new_arr
-        </code></pre>
+        return new_arr</code></pre>
+        <p>
+            When given an input <code>arr = ['hello', 'world']</code>, the resulting array will look like this when printed:
+        </p>
+        <pre><code>['HELLO', 'WORLD']</code></pre>
+        <p>
+            The time complexity of this function is directly proportional to the array it takes in. It doesn't matter how long the array is, because the <code>map</code>
+            function will have to go through every single one to capitalize it regardless of the length. Therefore, the time complexity of this function is <var>O(n)</var>
+            where <var>n</var> is the length of the input array. 
+        </p>
         <h3>Iteration and Filtering Using <code>map</code> and <code>filter</code></h3>
         <p>
-            Note
+            Python has another built-in function called <code>filter</code>. The <code>map</code> and <code>filter</code> functions are often used together
+            to perform actions on data in various collections. The below function <code>double_filter</code> takes in an array <code>arr</code> as a parameter.
+            It then goes through every item in the array and doubles it using the <code>map</code> function. Next, it filters the array with <code>filter</code>
+            and only keeps the elements that are greater than or equal to 10. 
+        </p>
+        <pre><code>def double_filter(arr):
+        double_arr = list(map(lambda n:n*2, arr))
+        filt_arr = list(filter(lambda n:n>=10, double_arr))
+        return filt_arr</code></pre>
+        <p>
+            If you were to input <code>arr = [2, 3, 4, 5, 6, 7]</code> to <code>double_filter</code> and print out the resulting array, <code>filt_arr</code>,
+            this would be the output:
+        </p>
+        <pre><code>[10, 12, 14]</code></pre>
+        <p>
+            To compute the time complexity, we consider all of the operations that happen in this function:
+        </p>
+        <ul>
+            <li>Doubling the array using <code>map</code></li>
+            <li>Filtering the array using <code>filter</code></li>
+        </ul>
+        <p>
+            The <code>map</code> function is <var>O(n)</var> because it goes through each item in the array once, where <var>n</var>
+            is the length of the array (the same as was shown in the previous example). The <code>lambda</code> function — which is technically a function of its own
+            inside of the <code>map</code> function — is <var>O(1)</var>, because each time it is called, it performs exactly one operation (doubling the item that's passed into it).
+            Since <var>O(n) > O(1)</var>, we keep the worst case, or <em>upper bound</em>, as was specified previously, which is <var>O(n)</var> where <var>n</var> is the size
+            of the input array <code>arr</code>.
+        </p>
+        <p>
+            The same is true for the <code>filter</code> function. It also has a <code>lambda</code> function inside of it, which is <var>O(1)</var> because every time it is called, it 
+            checks if the item passed into it is greater than or equal to 10 only one time. The <code>filter</code> function is <var>O(n)</var>, because it will perform one operation
+            for each element of the array that's passed into it, so <var>n</var> is the size of the array <code>arr</code>.
+        </p>
+        <p>
+            So now, we have two operations that are both <var>O(n)</var>. It is as simple as it sounds — we just need to add them together. The <code>double_filter</code> function's time
+            complexity is <var>O(2n)</var>. However, the same rule applies for the constant here: we can remove the 2, since it will become arbitrary as <var>n</var> grows. Therefore,
+            the <code>double_filter</code> function's time complexity is <var>O(n)</var> where <var>n</var> is the size of the input array <code>arr</code>.
         </p>
     </div>
     <div id="minimax-section" class="main-text">
