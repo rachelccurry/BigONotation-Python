@@ -35,7 +35,7 @@
             size approaches infinity.
         </p>
         <p class="math">
-            f(x) = O(g(x)) as x → ∞
+            f(n) = O(g(n)) as n → ∞
         </p>
         <p>
             Consider the following graph, where <var>n</var> is the size of the input.
@@ -51,6 +51,8 @@
             practice, Big O Notation is often the <em>upper bound</em> of an algorithm's complexity. This is because as the input size grows,
             the <var>n<sup>2</sup></var> becomes the dominant multiplier, and all other terms will become arbitrary. Therefore, if the 
             time complexity of an algorithm is <var>f(n) = 6n<sup>2</sup>+4n</var>, that can be  simplified to <var>O(n<sup>2</sup>)</var>.
+            The same happens with constants that are multiplied to the function. If there is a time complexity <var>O(3n)</var>, that can 
+            always be simplified to <var>O(n)</var>.
         </p>
     </div>
     <div id="big-o-examples" class="main-text">
@@ -58,7 +60,7 @@
         <h3>Singular <code>for</code> Loop</h3>
         <p>
             Consider the below example. This function, <code>addup</code>, takes in <code>num</code> as its only function parameter. It 
-            goes on to a <code>for</code> loop, which goes around <code>num</code> times and sums the number of times it has looped.
+            then includes a singular <code>for</code> loop, which goes around <code>num</code> times and sums the number of times it has looped.
         </p>
         <pre><code>def addup(num):
         sum = 0
@@ -66,7 +68,61 @@
             sum +=1
         return sum</code></pre>
         <p>
-            
+            The number of times this function will go through the <code>for</code> loop depends solely on what <code>num</code> is. If 
+            <code>num</code> is 500,000,000, it will loop that many times. The number of calculations is directly proportional to the 
+            input value. Therefore, this function is <var>O(n)</var> where <var>n</var> is <code>num</code>.
+        </p>
+        <h3>Nested <code>for</code> Loop</h3>
+        <p>
+            Next, we'll look at a <em>nested</em> <code>for</code> loop. The below function <code>shorten</code> takes in an array <code>arr</code> as input. 
+            It then loops through the array and prints out each item, and does a secondary nested loop inside the outer one, where it prints out the array 
+            starting with the <code>i + 1</code><sup>th</sup> element. 
+        </p>
+        <pre><code>def shorten(arr):
+        for i in range(len(arr)):
+            print(arr[i])
+            for j in range(i+1, len(arr)):
+                print(arr[j])</code></pre>
+        <p>
+            This function will produce the below output when given <code>arr = [1, 2, 3]</code> as a paramter.
+        </p>
+        <pre><code>
+            1
+            2
+            3
+            2
+            3
+            3</code></pre>
+        <p>
+            The first time it went through the loop, it printed out <code>1</code>, and then it went into the secondary loop and printed <code>2</code>
+            and <code>3</code>. It went back around and printed <code>2</code> in the outer loop, and then printed <code>3</code> in the inner loop.
+            Lastly, it printed <code>3</code> in the outer loop on its final time around, and since there is no index after that, the inner loop didn't
+            print anything. 
+        </p>
+        <p>
+            To determine the time complexity of this function, consider what is actually happening inside the loops. Each time it goes through 
+            the array and prints out the whole thing, except every following time it ignores the next first element. 
+        </p>
+        <p>
+            If it did not ignore these elements, it would essentially be accessing every element in a <var>n x n</var> matrix and printing them out.
+            If that were the case, the time complexity would be <var>O(n<sup>2</sup>)</var>, because it accesses <var>n</var> elements <var>n</var>
+            times. But considering it ignores half of the elements in the figurative matrix, the time complexity is technically <var>(1/2)O(n<sup>2</sup>)</var>.
+            However, the rule about constants still applies here! The <var>1/2</var> can be removed, because as <var>n</var> approaches infinity, the 
+            <var>1/2</var> becomes arbitrary. Therefore, the time complexity of this nested <code>for</code> loop is <var>O(n<sup>2</sup>)</var>.
+        </p>
+        <h3>Iteration Using <code>map</code></h3>
+        <p>
+            Python has a built-in function called <code>map</code>. This function iterates over all items in a collection (such as an array) and performs
+            an action on them which is specified in the parameters by the user. Consider the below function, which utilizes <code>map</code> to capitalize
+            all of the <code>string</code> elements of an array <code>arr</code>.
+        </p>
+        <pre><code>def capitalize(arr):
+        new_arr = list(map(str.upper, arr))
+        return new_arr
+        </code></pre>
+        <h3>Iteration and Filtering Using <code>map</code> and <code>filter</code></h3>
+        <p>
+            Note
         </p>
     </div>
     <div id="minimax-section" class="main-text">
