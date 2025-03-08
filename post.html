@@ -16,7 +16,7 @@
 <body>
     <div class="main-text">
         <div id="heading" class="heading">
-            <h1>Big O Notation — Python Examples</h1>
+            <h1>Big O Notation & Minimax in Python</h1>
             <h3>Rachel Curry</h3>
             <h4>March 7th, 2025</h4>
             <p><span class="tag">algorithms</span> <span class="tag">big o notation</span> <span class="tag">minimax</span></p>
@@ -24,7 +24,7 @@
     </div>
     <div id="intro-section" class="main-text">
         <p>
-            In computer science, <strong>Big O Notation</strong> is a mathematical format to express the computational complexity of
+            In computer science, <strong>Big O Notation</strong> is a mathematical format to express the complexity of
             an algorithm. This allows us to determine the <em>time</em> and <em>space</em> that an algorithm will need as its input changes. 
         </p>
         <p>
@@ -179,11 +179,11 @@
         <h2>Minimax Algorithm</h2>
         <h3>Game States</h3>
         <p>The Minimax Algorithm is an algorithm commonly used in game logic, backtracking, and decision making programs. This algorithm uses the
-            tree structure to "see" all possible outcomes of a situation and make the optimal choice based on the depth of the scenario in the tree. 
+            tree structure to "see" all possible outcomes of a decision making situation and make the optimal choice based on the tree it creates. 
         </p>
         <p>
             For example, consider the game of Tic Tac Toe. On a 3x3 board, how many possible game states are there? To discover this, first let's 
-            define what a game state is more specifically. In this context, a <strong>game state</strong> refers to one possible game scenario. This 
+            define what a game state is more specifically. In this context, a <strong>game state</strong> refers to one distinct possible game scenario. This 
             includes all situations where the game is either finished or unfinished. For example, below are three different game states:
         </p>
         <div class="row">
@@ -246,8 +246,8 @@
             </div>
         </div>
         <p>
-            In order to find every single possible state that could occur in a game of tic tac toe, the minimax algorithm will compute every possible state by creating a 
-            tree recursively. Each node in the tree is a game state, and they branch down to where the deepest point of each branch is a completed game. 
+            In order to find every single possible state that could occur in a game of tic tac toe, the minimax algorithm will create a 
+            tree recursively. Each node in the tree is a game state, and they branch down to where the deepest node in each branch is a completed game. 
         </p>
         <p>
             Consider what happens when two players (or in this case, a player and a computer) play tic tac toe. On the first turn, the first player has nine possibilities
@@ -266,9 +266,11 @@
         </p>
         <h3>Time Complexity</h3>
         <p>
-            To calculate the time complexity of the minimax algorithm, first take a look at the pseudocode itself. What this algorithm is attempting to do is to <em>maximize</em>
-            its score, while the player is attempting to <em>minimize</em> this score. As the algorithm builds the tree to simulate all possible gameplay situations, it assumes
-            that the player will play optimally as well. This means that it will not necessarily take the <em>fastest</em> path to a win, but the most <em>optimal</em>.
+            For the purposes of this article, we will analyze the time complexity of the tic tac toe version of the minimax algorithm, as it can be implemented multiple 
+            ways for various other games (such as chess). To calculate the time complexity of the minimax algorithm, first take a look at the pseudocode itself.
+            What this algorithm is attempting to do is to <em>maximize</em> its score, while the player is attempting to <em>minimize</em> this score. As the algorithm 
+            builds the tree to simulate all possible gameplay situations, it assumes that the player will play optimally as well. This means that it will not necessarily 
+            take the <em>fastest</em> path to a win, but the most <em>optimal</em>.
 
         </p>
         <pre><code>def minimax(board, depth, is_maximizing)
@@ -298,9 +300,54 @@
             Let's consider what the algorithm is really doing. It takes in several parameters: the board, the current depth
             of the tree, and a boolean value that describes whether or not the program is currently trying to minimize or 
             maximize, i.e., whether or not the algorithm is simulating the player's move (minimizing) or its own move (maximizing).
+            The algorithm then:
+        </p>
+        <ol>
+            <li>Loops through all of the empty board positions</li>
+            <li>Places a letter in the empty spot</li>
+            <li>Recurses back into itself, allowing it to subsequently play the rest of the game each loop</li>
+            <li>Removes the letter and compares the score to the currently stored <code>best_score</code></li>
+        </ol>
+        <p>
+            It performs these actions both when simulating its own moves and also when simulating the player's moves. Because it has 
+            to loop through all the possible board positions, the first factor in determining time complexity is the size of the board
+            <var>n</var>, where <var>n</var> is the number of possible moves each turn. In a tic tac toe board, this will start out 
+            as <var>n = 9</var>, because there are nine possible positions to pick on the first turn.
         </p>
         <p>
-            
+            As you may realize, <var>n</var> will change each turn, because the number of possible positions to choose decreases
+            each turn. On the first turn, there are nine possible moves on a <em>single</em> board, and the tree does not have any child 
+            nodes yet. So on the first turn, <var>n = n<sup>0</sup> = 1</var>. If there were only one turn in the whole game,
+            the time complexity could be shown as <var>O(1)</var> because it would only have to loop through once. 
+        </p>
+        <p>
+            Even though the number of moves to choose from decreases each turn, the depth of the tree increases and the number of nodes grows
+            exponentially, because of the line where the function <code>minimax</code> is called recursively to check the rest of that respective
+            branch. Therefore, we must consider another factor: the depth of the tree. In the tic tac toe implementation, the maximum
+            depth of the tree will always be nine, so we will consider <var>d = 9</var> because that is the worst case (upper bound) scenario.
+        </p>
+        <p>
+            While <var>n</var> is decreasing each turn, <var>d</var> is increasing. At each depth level, the number of nodes grows exponentially like so:
+        </p>
+        <p class="math-smaller">
+            n<sup>0</sup> + n<sup>1</sup> + n<sup>2</sup> + n<sup>3</sup> + ... + n<sup>d</sup>
+        </p>
+        <p>
+            As we know, only the highest level exponent is necessary when calculating the time complexity, because it will produce the worst case runtime. Therefore,
+            the time complexity of the minimax algorithm can be reduced to <var>O(n<sup>d</sup>)</var>, where 
+            <var>n</var> is the maximum number of possible spots on the board and <var>d</var> is the maximum depth of the tree that can be created.
+        </p>
+        <p>
+            The upper bound of the tic tac toe case, <var>O(n<sup>d</sup>)</var>, simplifies to:
+        </p>
+        <p class="math-smaller">
+            O(9<sup>9</sup>) = 387,420,489
+        </p>
+        <p>
+            This number is <em>way</em> higher than the <var>9!</var> upper bound that we calculated earlier, which is the hypothetical number of possible
+            game states (nodes) in the tree if <code>minimax</code> were to calculate out every possibility. However, keep in mind, this 387,420,489 number of nodes does not 
+            take into account the rules of tic tac toe, and allows for the possibility that on each turn, there are nine additional possible moves, even on the 
+            ninth turn. According to tic tac toe rules, this is impossible.
         </p>
     </div>
     <div id="takeaways" class="main-text">
