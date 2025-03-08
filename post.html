@@ -266,11 +266,45 @@
         </p>
         <h3>Time Complexity</h3>
         <p>
-            The
+            To calculate the time complexity of the minimax algorithm, first take a look at the pseudocode itself. What this algorithm is attempting to do is to <em>maximize</em>
+            its score, while the player is attempting to <em>minimize</em> this score. As the algorithm builds the tree to simulate all possible gameplay situations, it assumes
+            that the player will play optimally as well. This means that it will not necessarily take the <em>fastest</em> path to a win, but the most <em>optimal</em>.
+
+        </p>
+        <pre><code>def minimax(board, depth, is_maximizing)
+        if there is a winner:
+            return 10 if cpu wins and -10 if player wins
+        if it is a draw:
+            return 0
+
+        if is_maximizing: <strong style="color: red;"># cpu turn</strong>
+            best_score = -inf
+            for all empty board positions:
+                try the spot <strong style="color: red;"># make move</strong>
+                score = minimax(board, depth + 1, false)
+                remove the letter from the spot <strong style="color: red;"># undo move</strong>
+                best_score = max(score, best_score)
+            return best_score
+
+        else: <strong style="color: red;"># player turn</strong>
+            best_score = inf
+            for all empty board positions:
+                try the spot <strong style="color: red;"># make move</strong>
+                score = minimax(board, depth + 1, true)
+                remove the letter from the spot <strong style="color: red;"># undo move</strong>
+                best_score = min(score, best_score)
+            return best_score</code></pre>
+        <p>
+            Let's consider what the algorithm is really doing. It takes in several parameters: the board, the current depth
+            of the tree, and a boolean value that describes whether or not the program is currently trying to minimize or 
+            maximize, i.e., whether or not the algorithm is simulating the player's move (minimizing) or its own move (maximizing).
+        </p>
+        <p>
+            
         </p>
     </div>
-    <div id="conclusion" class="main-text">
-        <h2>Conclusion (change this word ew)</h2>
+    <div id="takeaways" class="main-text">
+        <h2>Key Takeaways</h2>
         <p>bleh</p>
         <p class="signature">Rachel Curry</p>
     </div>
