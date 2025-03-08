@@ -66,4 +66,16 @@ canvas {
     font-size: 28pt;
     font-weight: 400;
     font-style: normal;
+    text-align:center;
+}
+
+.tag {
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #768cf5;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    text-shadow: none;
+    /* border: 4px solid #acaeb6; */
 }
