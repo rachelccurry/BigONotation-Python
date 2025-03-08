@@ -14,11 +14,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script src="graph.js"></script>
 <body>
-    <div id="heading" class="heading">
-        <h1>Big O Notation — Python Examples</h1>
-        <h3>Rachel Curry</h3>
-        <h4>March 7th, 2025</h4>
-        <p><span class="tag">algorithms</span> <span class="tag">big o notation</span> <span class="tag">minimax</span></p>
+    <div class="main-text">
+        <div id="heading" class="heading">
+            <h1>Big O Notation — Python Examples</h1>
+            <h3>Rachel Curry</h3>
+            <h4>March 7th, 2025</h4>
+            <p><span class="tag">algorithms</span> <span class="tag">big o notation</span> <span class="tag">minimax</span></p>
+        </div>
     </div>
     <div id="intro-section" class="main-text">
         <p>
@@ -38,7 +40,7 @@
             In Big O Notation, a mathematical function is used to describe the behavior of an algorithm as its input 
             size approaches infinity.
         </p>
-        <p class="math">
+        <p class="math-smaller">
             f(n) = O(g(n)) as n → ∞
         </p>
         <p>
@@ -173,15 +175,98 @@
             the <code>double_filter</code> function's time complexity is <var>O(n)</var> where <var>n</var> is the size of the input array <code>arr</code>.
         </p>
     </div>
-    <div id="minimax-section" class="main-text">
+    <div id="minimax-section-1" class="main-text">
         <h2>Minimax Algorithm</h2>
-        <p>The Minimax Algorithm is an algorithm commonly used in game logic, backtracking, and decision making programs. This algorithm uses the tree structure to "see" all possible
-            outcomes of a situation and make the optimal choice based on the depth of the scenario in the tree. 
+        <h3>Game States</h3>
+        <p>The Minimax Algorithm is an algorithm commonly used in game logic, backtracking, and decision making programs. This algorithm uses the
+            tree structure to "see" all possible outcomes of a situation and make the optimal choice based on the depth of the scenario in the tree. 
         </p>
         <p>
-            For example, consider the game of Tic Tac Toe. On a 3x3 board, how many possible game states are there? To discover this, first let's define what a game state is more
-            specifically. In this context, a <strong>game state</strong> refers to one possible game scenario. This includes all possible situations where the game is either finished or unfinished. 
-            For example, below are three different game states:
+            For example, consider the game of Tic Tac Toe. On a 3x3 board, how many possible game states are there? To discover this, first let's 
+            define what a game state is more specifically. In this context, a <strong>game state</strong> refers to one possible game scenario. This 
+            includes all situations where the game is either finished or unfinished. For example, below are three different game states:
+        </p>
+        <div class="row">
+            <div class="column">
+                <table>
+                    <tr>
+                        <td>X</td>
+                        <td>O</td>
+                        <td>X</td>
+                    </tr>
+                    <tr>
+                        <td>O</td>
+                        <td>O</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>X</td>
+                        <td>X</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <tr>
+                        <td>O</td>
+                        <td></td>
+                        <td>X</td>
+                    </tr>
+                    <tr>
+                        <td>O</td>
+                        <td>X</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>O</td>
+                        <td>X</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <tr>
+                        <td>X</td>
+                        <td>O</td>
+                        <td>O</td>
+                    </tr>
+                    <tr>
+                        <td>O</td>
+                        <td>X</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>X</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <p>
+            In order to find every single possible state that could occur in a game of tic tac toe, the minimax algorithm will compute every possible state by creating a 
+            tree recursively. Each node in the tree is a game state, and they branch down to where the deepest point of each branch is a completed game. 
+        </p>
+        <p>
+            Consider what happens when two players (or in this case, a player and a computer) play tic tac toe. On the first turn, the first player has nine possibilities
+            of spots to place their letter. On the second turn, the player has eight possibilities, because one spot will be taken. On third turn, there will be seven possibilities,
+            and so on. For each of the nine options on the first move, there is eight following potential options. This gives us <var>9 x 8</var> moves. 
+        </p>
+        <p class="math-smaller">
+            (9 options) x (8 options) x (7 options) x ... = 9!
+        </p>
+        <p>
+            The maximum number of turns there can be, where one turn is one level deeper in the tree, is nine turns. So the maximum tree depth is 9, and the potential
+            number of nodes is pretty significant at <var>9! = 362,880</var> in the worst case scenario. However, this would only happen if the minimax algorithm 
+            needed to compute every single possible game state, which doesn't really happen. This is partially because the game must follow an order of 
+            X→O→X→O and so forth, so it will always have at maximum five Xs and four Os (given that X always goes first). It's also partially because in many cases,
+            the game won't actually go to nine turns, so the tree will not need to reach nine levels deep. 
+        </p>
+        <h3>Time Complexity</h3>
+        <p>
+            The
         </p>
     </div>
     <div id="conclusion" class="main-text">
