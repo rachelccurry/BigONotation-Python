@@ -60,3 +60,10 @@ canvas {
     margin: auto;
     padding: 20px;
 }
+
+.signature {
+    font-family: "Great Vibes", cursive;
+    font-size: 28pt;
+    font-weight: 400;
+    font-style: normal;
+}
