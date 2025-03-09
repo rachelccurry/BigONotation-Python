@@ -11,8 +11,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
     <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
 <body>
+    <div class="toc">
+        <ul>
+            <a href="#intro-section"><li>Intro</li></a>
+            <a href="#big-o-explained"><li>Big O Notation</li></a>
+            <a href="#big-o-examples"><li>Big O Python Examples</li></a>
+            <ul>
+                <a href="#singular-for-loop"><li>Singular <code>for</code> Loop</li></a>
+                <a href="#nested-for-loop"><li>Nested <code>for</code> Loop</li></a>
+                <a href="#iteration-map"><li>Iteration using <code>map</code></li></a>
+                <a href="#iteration-map-filter"><li>Iteration and Filtering Using <code>map</code>and <code>filter</code></li></a>
+            </ul>
+            <a href="#minimax"><li>Minimax Algorithm</li></a>
+            <ul>
+                <a href="#game-states"><li>Game States</li></a>
+                <a href="#time-complexity"><li>Time Complexity</li></a>
+            </ul>
+            <a href="#key-takeaways"><li>Key Takeaways</li></a>
+        </ul>
+    </div>
     <div class="main-text">
         <div id="heading" class="heading">
             <h1>Big O Notation & Minimax in Python</h1>
@@ -45,7 +65,7 @@
         <p>
             Consider the following graph, where <var>n</var> is the size of the input.
         </p>
-        <div id="bigOGraph";></div>
+        <div class="graph-container"><div id="bigOGraph"></div></div>
         <script>
             var trace1 = {
                 x: [0, 1, 2, 3, 4, 5, 6, 7],
@@ -99,7 +119,9 @@
                         }
                     },
                     showticklabels: false
-                }
+                },
+                responsive: true,
+                autosize: true
             };
             Plotly.newPlot("bigOGraph", data, layout);
         </script>
@@ -119,217 +141,228 @@
     </div>
     <div id="big-o-examples" class="main-text">
         <h2>Big O Python Examples</h2>
-        <h3>Singular <code>for</code> Loop</h3>
-        <p>
-            Consider the below example. This function, <code>addup</code>, takes in <code>num</code> as its only function parameter. It 
-            then includes a singular <code>for</code> loop, which goes around <code>num</code> times and sums the number of times it has looped.
-        </p>
-        <pre><code>def addup(num):
-        sum = 0
-        for i in range(num):
-            sum +=1
-        return sum</code></pre>
-        <p>
-            The number of times this function will go through the <code>for</code> loop depends solely on what <code>num</code> is. If 
-            <code>num</code> is 500,000,000, it will loop that many times. The number of calculations is directly proportional to the 
-            input value. Therefore, this function's time complexity is <var>O(n)</var> where <var>n</var> is <code>num</code>.
-        </p>
-        <h3>Nested <code>for</code> Loop</h3>
-        <p>
-            Next, we'll look at a <em>nested</em> <code>for</code> loop. The below function <code>shorten</code> takes in an array <code>arr</code> as input. 
-            It then loops through the array and prints out each item, and does a secondary nested loop inside the outer one, where it prints out the array 
-            starting with the <code>i + 1</code><sup>th</sup> element. 
-        </p>
-        <pre><code>def shorten(arr):
-        for i in range(len(arr)):
-            print(arr[i])
-            for j in range(i+1, len(arr)):
-                print(arr[j])</code></pre>
-        <p>
-            This function will produce the below output when given <code>arr = [1, 2, 3]</code> as a paramter.
-        </p>
-        <pre><code>
-            1
-            2
-            3
-            2
-            3
-            3</code></pre>
-        <p>
-            The first time it went through the loop, it printed out <code>1</code>, and then it went into the secondary loop and printed <code>2</code>
-            and <code>3</code>. It went back around and printed <code>2</code> in the outer loop, and then printed <code>3</code> in the inner loop.
-            Lastly, it printed <code>3</code> in the outer loop on its final time around, and since there is no index after that, the inner loop didn't
-            print anything. 
-        </p>
-        <p>
-            To determine the time complexity of this function, consider what is actually happening inside the loops. Each time it goes through 
-            the array and prints out the whole thing, except every following time it ignores the next first element. 
-        </p>
-        <p>
-            If it did not ignore these elements, it would essentially be accessing every element in a <var>n x n</var> matrix and printing them out.
-            If that were the case, the time complexity would be <var>O(n<sup>2</sup>)</var>, because it accesses <var>n</var> elements <var>n</var>
-            times. But considering it ignores half of the elements in the figurative matrix, the time complexity is technically <var>O(n<sup>2</sup>/2)</var>.
-            However, the rule about constants still applies here! The <var>1/2</var> can be removed, because as <var>n</var> approaches infinity, the 
-            <var>1/2</var> becomes arbitrary. Therefore, the time complexity of this nested <code>for</code> loop is <var>O(n<sup>2</sup>)</var>.
-        </p>
-        <h3>Iteration Using <code>map</code></h3>
-        <p>
-            Python has a built-in function called <code>map</code>. This function iterates over all items in a collection (such as an array) and performs
-            an action on them which is specified in the parameters by the user. Consider the below function, which utilizes <code>map</code> to capitalize
-            all of the <code>string</code> elements of an array <code>arr</code>.
-        </p>
-        <pre><code>def capitalize(arr):
-        new_arr = list(map(str.upper, arr))
-        return new_arr</code></pre>
-        <p>
-            When given an input <code>arr = ['hello', 'world']</code>, the resulting array will look like this when printed:
-        </p>
-        <pre><code>['HELLO', 'WORLD']</code></pre>
-        <p>
-            The time complexity of this function is directly proportional to the array it takes in. It doesn't matter how long the array is, because the <code>map</code>
-            function will have to go through every single one to capitalize it regardless of the length. Therefore, the time complexity of this function is <var>O(n)</var>
-            where <var>n</var> is the length of the input array. 
-        </p>
-        <h3>Iteration and Filtering Using <code>map</code> and <code>filter</code></h3>
-        <p>
-            Python has another built-in function called <code>filter</code>. The <code>map</code> and <code>filter</code> functions are often used together
-            to perform actions on data in various collections. The below function <code>double_filter</code> takes in an array <code>arr</code> as a parameter.
-            It then goes through every item in the array and doubles it using the <code>map</code> function. Next, it filters the array with <code>filter</code>
-            and only keeps the elements that are greater than or equal to 10. 
-        </p>
-        <pre><code>def double_filter(arr):
-        double_arr = list(map(lambda n:n*2, arr))
-        filt_arr = list(filter(lambda n:n>=10, double_arr))
-        return filt_arr</code></pre>
-        <p>
-            If you were to input <code>arr = [2, 3, 4, 5, 6, 7]</code> to <code>double_filter</code> and print out the resulting array, <code>filt_arr</code>,
-            this would be the output:
-        </p>
-        <pre><code>[10, 12, 14]</code></pre>
-        <p>
-            To compute the time complexity, we consider all of the operations that happen in this function:
-        </p>
-        <ul>
-            <li>Doubling the array using <code>map</code></li>
-            <li>Filtering the array using <code>filter</code></li>
-        </ul>
-        <p>
-            The <code>map</code> function is <var>O(n)</var> because it goes through each item in the array once, where <var>n</var>
-            is the length of the array (the same as was shown in the previous example). The <code>lambda</code> function — which is technically a function of its own
-            inside of the <code>map</code> function — is <var>O(1)</var>, because each time it is called, it performs exactly one operation (doubling the item that's passed into it).
-            Since <var>O(n) > O(1)</var>, we keep the worst case, or <em>upper bound</em>, as was specified previously, which is <var>O(n)</var> where <var>n</var> is the size
-            of the input array <code>arr</code>.
-        </p>
-        <p>
-            The same is true for the <code>filter</code> function. It also has a <code>lambda</code> function inside of it, which is <var>O(1)</var> because every time it is called, it 
-            checks if the item passed into it is greater than or equal to 10 only one time. The <code>filter</code> function is <var>O(n)</var>, because it will perform one operation
-            for each element of the array that's passed into it, so <var>n</var> is the size of the array <code>arr</code>.
-        </p>
-        <p>
-            So now, we have two operations that are both <var>O(n)</var>. It is as simple as it sounds — we just need to add them together. The <code>double_filter</code> function's time
-            complexity is <var>O(2n)</var>. However, the same rule applies for the constant here: we can remove the 2, since it will become arbitrary as <var>n</var> grows. Therefore,
-            the <code>double_filter</code> function's time complexity is <var>O(n)</var> where <var>n</var> is the size of the input array <code>arr</code>.
-        </p>
-    </div>
-    <div id="minimax-section-1" class="main-text">
-        <h2>Minimax Algorithm</h2>
-        <h3>Game States</h3>
-        <p>The Minimax Algorithm is an algorithm commonly used in game logic, backtracking, and decision making programs. This algorithm uses the
-            tree structure to "see" all possible outcomes of a decision making situation and make the optimal choice based on the tree it creates. 
-        </p>
-        <p>
-            For example, consider the game of Tic Tac Toe. On a 3x3 board, how many possible game states are there? To discover this, first let's 
-            define what a game state is more specifically. In this context, a <strong>game state</strong> refers to one distinct possible game scenario. This 
-            includes all situations where the game is either finished or unfinished. For example, below are three different game states:
-        </p>
-        <div class="row">
-            <div class="column">
-                <table>
-                    <tr>
-                        <td>X</td>
-                        <td>O</td>
-                        <td>X</td>
-                    </tr>
-                    <tr>
-                        <td>O</td>
-                        <td>O</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>X</td>
-                        <td>X</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="column">
-                <table>
-                    <tr>
-                        <td>O</td>
-                        <td></td>
-                        <td>X</td>
-                    </tr>
-                    <tr>
-                        <td>O</td>
-                        <td>X</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>O</td>
-                        <td>X</td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="column">
-                <table>
-                    <tr>
-                        <td>X</td>
-                        <td>O</td>
-                        <td>O</td>
-                    </tr>
-                    <tr>
-                        <td>O</td>
-                        <td>X</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td>X</td>
-                    </tr>
-                </table>
-            </div>
+        <div id="singular-for-loop">
+            <h3>Singular <code>for</code> Loop</h3>
+            <p>
+                Consider the below example. This function, <code>addup</code>, takes in <code>num</code> as its only function parameter. It 
+                then includes a singular <code>for</code> loop, which goes around <code>num</code> times and sums the number of times it has looped.
+            </p>
+            <pre><code>def addup(num):
+            sum = 0
+            for i in range(num):
+                sum +=1
+            return sum</code></pre>
+            <p>
+                The number of times this function will go through the <code>for</code> loop depends solely on what <code>num</code> is. If 
+                <code>num</code> is 500,000,000, it will loop that many times. The number of calculations is directly proportional to the 
+                input value. Therefore, this function's time complexity is <var>O(n)</var> where <var>n</var> is <code>num</code>.
+            </p>
         </div>
-        <p>
-            In order to find every single possible state that could occur in a game of tic tac toe, the minimax algorithm will create a 
-            tree recursively. Each node in the tree is a game state, and they branch down to where the deepest node in each branch is a completed game. 
-        </p>
-        <p>
-            Consider what happens when two players (or in this case, a player and a computer) play tic tac toe. On the first turn, the first player has nine possibilities
-            of spots to place their letter. On the second turn, the player has eight possibilities, because one spot will be taken. On third turn, there will be seven possibilities,
-            and so on. For each of the nine options on the first move, there is eight following potential options. This gives us <var>9 x 8</var> moves. 
-        </p>
-        <p class="math-smaller">
-            (9 options) x (8 options) x (7 options) x ... = 9!
-        </p>
-        <p>
-            The maximum number of turns there can be, where one turn is one level deeper in the tree, is nine turns. So the maximum tree depth is 9, and the potential
-            number of nodes is pretty significant at <var>9! = 362,880</var> in the worst case scenario. However, this would only happen if the minimax algorithm 
-            needed to compute every single possible game state, which doesn't really happen. This is partially because the game must follow an order of 
-            X→O→X→O and so forth, so it will always have at maximum five Xs and four Os (given that X always goes first). It's also partially because in many cases,
-            the game won't actually go to nine turns, so the tree will not need to reach nine levels deep. 
-        </p>
-        <h3>Time Complexity</h3>
-        <p>
-            For the purposes of this article, we will analyze the time complexity of the tic tac toe version of the minimax algorithm, as it can be implemented multiple 
-            ways for various other games (such as chess). To calculate the time complexity of the minimax algorithm, first take a look at the pseudocode itself.
-            What this algorithm is attempting to do is to <em>maximize</em> its score, while the player is attempting to <em>minimize</em> this score. As the algorithm 
-            builds the tree to simulate all possible gameplay situations, it assumes that the player will play optimally as well. This means that it will not necessarily 
-            take the <em>fastest</em> path to a win, but the most <em>optimal</em>.
+        <div id="nested-for-loop">
+            <h3>Nested <code>for</code> Loop</h3>
+            <p>
+                Next, we'll look at a <em>nested</em> <code>for</code> loop. The below function <code>shorten</code> takes in an array <code>arr</code> as input. 
+                It then loops through the array and prints out each item, and does a secondary nested loop inside the outer one, where it prints out the array 
+                starting with the <code>i + 1</code><sup>th</sup> element. 
+            </p>
+            <pre><code>def shorten(arr):
+            for i in range(len(arr)):
+                print(arr[i])
+                for j in range(i+1, len(arr)):
+                    print(arr[j])</code></pre>
+            <p>
+                This function will produce the below output when given <code>arr = [1, 2, 3]</code> as a paramter.
+            </p>
+            <pre><code>
+                1
+                2
+                3
+                2
+                3
+                3</code></pre>
+            <p>
+                The first time it went through the loop, it printed out <code>1</code>, and then it went into the secondary loop and printed <code>2</code>
+                and <code>3</code>. It went back around and printed <code>2</code> in the outer loop, and then printed <code>3</code> in the inner loop.
+                Lastly, it printed <code>3</code> in the outer loop on its final time around, and since there is no index after that, the inner loop didn't
+                print anything. 
+            </p>
+            <p>
+                To determine the time complexity of this function, consider what is actually happening inside the loops. Each time it goes through 
+                the array and prints out the whole thing, except every following time it ignores the next first element. 
+            </p>
+            <p>
+                If it did not ignore these elements, it would essentially be accessing every element in a <var>n x n</var> matrix and printing them out.
+                If that were the case, the time complexity would be <var>O(n<sup>2</sup>)</var>, because it accesses <var>n</var> elements <var>n</var>
+                times. But considering it ignores half of the elements in the figurative matrix, the time complexity is technically <var>O(n<sup>2</sup>/2)</var>.
+                However, the rule about constants still applies here! The <var>1/2</var> can be removed, because as <var>n</var> approaches infinity, the 
+                <var>1/2</var> becomes arbitrary. Therefore, the time complexity of this nested <code>for</code> loop is <var>O(n<sup>2</sup>)</var>.
+            </p>
+        </div>
+        <div id="iteration-map">
+            <h3>Iteration Using <code>map</code></h3>
+            <p>
+                Python has a built-in function called <code>map</code>. This function iterates over all items in a collection (such as an array) and performs
+                an action on them which is specified in the parameters by the user. Consider the below function, which utilizes <code>map</code> to capitalize
+                all of the <code>string</code> elements of an array <code>arr</code>.
+            </p>
+            <pre><code>def capitalize(arr):
+            new_arr = list(map(str.upper, arr))
+            return new_arr</code></pre>
+            <p>
+                When given an input <code>arr = ['hello', 'world']</code>, the resulting array will look like this when printed:
+            </p>
+            <pre><code>['HELLO', 'WORLD']</code></pre>
+            <p>
+                The time complexity of this function is directly proportional to the array it takes in. It doesn't matter how long the array is, because the <code>map</code>
+                function will have to go through every single one to capitalize it regardless of the length. Therefore, the time complexity of this function is <var>O(n)</var>
+                where <var>n</var> is the length of the input array. 
+            </p>
+        </div>
+        <div id="iteration-map-filter">
+            <h3>Iteration and Filtering Using <code>map</code> and <code>filter</code></h3>
+            <p>
+                Python has another built-in function called <code>filter</code>. The <code>map</code> and <code>filter</code> functions are often used together
+                to perform actions on data in various collections. The below function <code>double_filter</code> takes in an array <code>arr</code> as a parameter.
+                It then goes through every item in the array and doubles it using the <code>map</code> function. Next, it filters the array with <code>filter</code>
+                and only keeps the elements that are greater than or equal to 10. 
+            </p>
+            <pre><code>def double_filter(arr):
+            double_arr = list(map(lambda n:n*2, arr))
+            filt_arr = list(filter(lambda n:n>=10, double_arr))
+            return filt_arr</code></pre>
+            <p>
+                If you were to input <code>arr = [2, 3, 4, 5, 6, 7]</code> to <code>double_filter</code> and print out the resulting array, <code>filt_arr</code>,
+                this would be the output:
+            </p>
+            <pre><code>[10, 12, 14]</code></pre>
+            <p>
+                To compute the time complexity, we consider all of the operations that happen in this function:
+            </p>
+            <ul>
+                <li>Doubling the array using <code>map</code></li>
+                <li>Filtering the array using <code>filter</code></li>
+            </ul>
+            <p>
+                The <code>map</code> function is <var>O(n)</var> because it goes through each item in the array once, where <var>n</var>
+                is the length of the array (the same as was shown in the previous example). The <code>lambda</code> function — which is technically a function of its own
+                inside of the <code>map</code> function — is <var>O(1)</var>, because each time it is called, it performs exactly one operation (doubling the item that's passed into it).
+                Since <var>O(n) > O(1)</var>, we keep the worst case, or <em>upper bound</em>, as was specified previously, which is <var>O(n)</var> where <var>n</var> is the size
+                of the input array <code>arr</code>.
+            </p>
+            <p>
+                The same is true for the <code>filter</code> function. It also has a <code>lambda</code> function inside of it, which is <var>O(1)</var> because every time it is called, it 
+                checks if the item passed into it is greater than or equal to 10 only one time. The <code>filter</code> function is <var>O(n)</var>, because it will perform one operation
+                for each element of the array that's passed into it, so <var>n</var> is the size of the array <code>arr</code>.
+            </p>
+            <p>
+                So now, we have two operations that are both <var>O(n)</var>. It is as simple as it sounds — we just need to add them together. The <code>double_filter</code> function's time
+                complexity is <var>O(2n)</var>. However, the same rule applies for the constant here: we can remove the 2, since it will become arbitrary as <var>n</var> grows. Therefore,
+                the <code>double_filter</code> function's time complexity is <var>O(n)</var> where <var>n</var> is the size of the input array <code>arr</code>.
+            </p>
+        </div>
+    </div>
+    <div id="minimax" class="main-text">
+        <h2>Minimax Algorithm</h2>
+        <div id="game-states">
+            <h3>Game States</h3>
+            <p>The Minimax Algorithm is an algorithm commonly used in game logic, backtracking, and decision making programs. This algorithm uses the
+                tree structure to "see" all possible outcomes of a decision making situation and make the optimal choice based on the tree it creates. 
+            </p>
+            <p>
+                For example, consider the game of Tic Tac Toe. On a 3x3 board, how many possible game states are there? To discover this, first let's 
+                define what a game state is more specifically. In this context, a <strong>game state</strong> refers to one distinct possible game scenario. This 
+                includes all situations where the game is either finished or unfinished. For example, below are three different game states:
+            </p>
+            <div class="row">
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>X</td>
+                            <td>O</td>
+                            <td>X</td>
+                        </tr>
+                        <tr>
+                            <td>O</td>
+                            <td>O</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>X</td>
+                            <td>X</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>O</td>
+                            <td></td>
+                            <td>X</td>
+                        </tr>
+                        <tr>
+                            <td>O</td>
+                            <td>X</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>O</td>
+                            <td>X</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="column">
+                    <table>
+                        <tr>
+                            <td>X</td>
+                            <td>O</td>
+                            <td>O</td>
+                        </tr>
+                        <tr>
+                            <td>O</td>
+                            <td>X</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>X</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <p>
+                In order to find every single possible state that could occur in a game of tic tac toe, the minimax algorithm will create a 
+                tree recursively. Each node in the tree is a game state, and they branch down to where the deepest node in each branch is a completed game. 
+            </p>
+            <p>
+                Consider what happens when two players (or in this case, a player and a computer) play tic tac toe. On the first turn, the first player has nine possibilities
+                of spots to place their letter. On the second turn, the player has eight possibilities, because one spot will be taken. On third turn, there will be seven possibilities,
+                and so on. For each of the nine options on the first move, there is eight following potential options. This gives us <var>9 x 8</var> moves. 
+            </p>
+            <p class="math-smaller">
+                (9 options) x (8 options) x (7 options) x ... = 9!
+            </p>
+            <p>
+                The maximum number of turns there can be, where one turn is one level deeper in the tree, is nine turns. So the maximum tree depth is 9, and the potential
+                number of nodes is pretty significant at <var>9! = 362,880</var> in the worst case scenario. However, this would only happen if the minimax algorithm 
+                needed to compute every single possible game state, which doesn't really happen. This is partially because the game must follow an order of 
+                X→O→X→O and so forth, so it will always have at maximum five Xs and four Os (given that X always goes first). It's also partially because in many cases,
+                the game won't actually go to nine turns, so the tree will not need to reach nine levels deep. 
+            </p>
+        </div>
+        <div id="time-complexity">
+            <h3>Time Complexity</h3>
+            <p>
+                For the purposes of this article, we will analyze the time complexity of the tic tac toe version of the minimax algorithm, as it can be implemented multiple 
+                ways for various other games (such as chess). To calculate the time complexity of the minimax algorithm, first take a look at the pseudocode itself.
+                What this algorithm is attempting to do is to <em>maximize</em> its score, while the player is attempting to <em>minimize</em> this score. As the algorithm 
+                builds the tree to simulate all possible gameplay situations, it assumes that the player will play optimally as well. This means that it will not necessarily 
+                take the <em>fastest</em> path to a win, but the most <em>optimal</em>.
 
-        </p>
-        <pre><code>def minimax(board, depth, is_maximizing)
+            </p>
+            <pre><code>def minimax(board, depth, is_maximizing)
         if there is a winner:
             return 10 if cpu wins and -10 if player wins
         if it is a draw:
@@ -352,71 +385,72 @@
                 remove the letter from the spot <strong style="color: red;"># undo move</strong>
                 best_score = min(score, best_score)
             return best_score</code></pre>
-        <p>
-            Let's consider what the algorithm is really doing. It takes in several parameters: the board, the current depth
-            of the tree, and a boolean value that describes whether or not the program is currently trying to minimize or 
-            maximize, i.e., whether or not the algorithm is simulating the player's move (minimizing) or its own move (maximizing).
-            The algorithm then:
-        </p>
-        <ol>
-            <li>Loops through all of the empty board positions</li>
-            <li>Places a letter in the empty spot</li>
-            <li>Recurses back into itself, allowing it to subsequently play the rest of the game each loop</li>
-            <li>Removes the letter and compares the score to the currently stored <code>best_score</code></li>
-        </ol>
-        <p>
-            It performs these actions both when simulating its own moves and also when simulating the player's moves. Because it has 
-            to loop through all the possible board positions, the first factor in determining time complexity is the size of the board
-            <var>n</var>, where <var>n</var> is the number of possible moves each turn. In a tic tac toe board, this will start out 
-            as <var>n = 9</var>, because there are nine possible positions to pick on the first turn.
-        </p>
-        <p>
-            As you may realize, <var>n</var> will change each turn, because the number of possible positions to choose decreases
-            each turn. On the first turn, there are nine possible moves on a <em>single</em> board, and the tree does not have any child 
-            nodes yet. So on the first turn, <var>n = n<sup>0</sup> = 1</var>. If there were only one turn in the whole game and the algorithm did
-            not recurse into itself, the time complexity could be shown as <var>O(1)</var> because it would only have to loop through once and
-            place the letter. 
-        </p>
-        <p>
-            Even though the number of moves to choose from decreases each turn, the depth of the tree increases and the number of nodes grows
-            exponentially, because of the line where the function <code>minimax</code> is called recursively to check the rest of that respective
-            branch. Therefore, we must consider another factor: the depth of the tree. In the tic tac toe implementation, the maximum
-            depth of the tree will always be nine, so we will consider <var>d = 9</var> because that is the worst case (upper bound) scenario.
-        </p>
-        <p>
-            While <var>n</var> is decreasing each turn, <var>d</var> is increasing. At each depth level, the number of nodes grows exponentially like so:
-        </p>
-        <p class="math-smaller">
-            n<sup>0</sup> + n<sup>1</sup> + n<sup>2</sup> + n<sup>3</sup> + ... + n<sup>d</sup>
-        </p>
-        <p>
-            As we know, only the highest level exponent is necessary when calculating the time complexity, because it will produce the worst case runtime. Therefore,
-            the time complexity of the minimax algorithm can be reduced to <var>O(n<sup>d</sup>)</var>, where 
-            <var>n</var> is the maximum number of possible spots on the board and <var>d</var> is the maximum depth of the tree that can be created.
-        </p>
-        <div class="side-note">
-            <h4 style="margin-top: 5px;">SIDE NOTE</h4>
             <p>
-                This time complexity technically allows for the possibility of calculating <var>O(9<sup>9</sup>)</var>, since at a point, each variable will be 
-                9. However, this case would not happen, because it allows for a situation where there are nine additional potential moves on the ninth turn, which
-                violates the rules of tic tac toe. 
+                Let's consider what the algorithm is really doing. It takes in several parameters: the board, the current depth
+                of the tree, and a boolean value that describes whether or not the program is currently trying to minimize or 
+                maximize, i.e., whether or not the algorithm is simulating the player's move (minimizing) or its own move (maximizing).
+                The algorithm then:
+            </p>
+            <ol>
+                <li>Loops through all of the empty board positions</li>
+                <li>Places a letter in the empty spot</li>
+                <li>Recurses back into itself, allowing it to subsequently play the rest of the game each loop</li>
+                <li>Removes the letter and compares the score to the currently stored <code>best_score</code></li>
+            </ol>
+            <p>
+                It performs these actions both when simulating its own moves and also when simulating the player's moves. Because it has 
+                to loop through all the possible board positions, the first factor in determining time complexity is the size of the board
+                <var>n</var>, where <var>n</var> is the number of possible moves each turn. In a tic tac toe board, this will start out 
+                as <var>n = 9</var>, because there are nine possible positions to pick on the first turn.
+            </p>
+            <p>
+                As you may realize, <var>n</var> will change each turn, because the number of possible positions to choose decreases
+                each turn. On the first turn, there are nine possible moves on a <em>single</em> board, and the tree does not have any child 
+                nodes yet. So on the first turn, <var>n = n<sup>0</sup> = 1</var>. If there were only one turn in the whole game and the algorithm did
+                not recurse into itself, the time complexity could be shown as <var>O(1)</var> because it would only have to loop through once and
+                place the letter. 
+            </p>
+            <p>
+                Even though the number of moves to choose from decreases each turn, the depth of the tree increases and the number of nodes grows
+                exponentially, because of the line where the function <code>minimax</code> is called recursively to check the rest of that respective
+                branch. Therefore, we must consider another factor: the depth of the tree. In the tic tac toe implementation, the maximum
+                depth of the tree will always be nine, so we will consider <var>d = 9</var> because that is the worst case (upper bound) scenario.
+            </p>
+            <p>
+                While <var>n</var> is decreasing each turn, <var>d</var> is increasing. At each depth level, the number of nodes grows exponentially like so:
+            </p>
+            <p class="math-smaller">
+                n<sup>0</sup> + n<sup>1</sup> + n<sup>2</sup> + n<sup>3</sup> + ... + n<sup>d</sup>
+            </p>
+            <p>
+                As we know, only the highest level exponent is necessary when calculating the time complexity, because it will produce the worst case runtime. Therefore,
+                the time complexity of the minimax algorithm can be reduced to <var>O(n<sup>d</sup>)</var>, where 
+                <var>n</var> is the maximum number of possible spots on the board and <var>d</var> is the maximum depth of the tree that can be created.
+            </p>
+            <div class="side-note">
+                <h4 style="margin-top: 5px;">SIDE NOTE</h4>
+                <p>
+                    This time complexity technically allows for the possibility of calculating <var>O(9<sup>9</sup>)</var>, since at a point, each variable will be 
+                    9. However, this case would not happen, because it allows for a situation where there are nine additional potential moves on the ninth turn, which
+                    violates the rules of tic tac toe. 
+                </p>
+            </div>
+            <p>
+                The minimax algorithm by itself is a very useful algorithm that has a lot of applications. As with most programs though, it can be optimized more 
+                fully than the pseudocode in this article. Even though the upper bound number of game states is <var>9!</var>, there are ways to ensure it never
+                reaches this point, even in the worst case. For example, because tic tac toe is a 3x3 grid, there are many game states that are duplicates of each
+                other or are mirrored. 
+            </p>
+            <p>
+                There is also a method called <strong>alpha-beta pruning</strong>, which is a way to ensure sections (branches) of the tree 
+                do not need to be searched. This is done by passing in <code>alpha</code> and <code>beta</code> as additional parameters, which are essentially a lower and upper
+                bound. Every time they are passed in recursively, they act as the best and worst cases that can be guaranteed so far if a move were to be made based on
+                only the previously checked branches. Therefore, the algorithm won't actually check all the branches, since it knows it can already get a better score
+                using a previous branch.
             </p>
         </div>
-        <p>
-            The minimax algorithm by itself is a very useful algorithm that has a lot of applications. As with most programs though, it can be optimized more 
-            fully than the pseudocode in this article. Even though the upper bound number of game states is <var>9!</var>, there are ways to ensure it never
-            reaches this point, even in the worst case. For example, because tic tac toe is a 3x3 grid, there are many game states that are duplicates of each
-            other or are mirrored. 
-        </p>
-        <p>
-            There is also a method called <strong>alpha-beta pruning</strong>, which is a way to ensure sections (branches) of the tree 
-            do not need to be searched. This is done by passing in <code>alpha</code> and <code>beta</code> as additional parameters, which are essentially a lower and upper
-            bound. Every time they are passed in recursively, they act as the best and worst cases that can be guaranteed so far if a move were to be made based on
-            only the previously checked branches. Therefore, the algorithm won't actually check all the branches, since it knows it can already get a better score
-            using a previous branch.
-        </p>
     </div>
-    <div id="takeaways" class="main-text">
+    <div id="key-takeaways" class="main-text">
         <h2>Key Takeaways</h2>
         <p>
             Within this article, we discussed what Big O Notation is, walked through some examples of it in Python, and did an overview analysis of the Minimax Algorithm,
@@ -436,6 +470,30 @@
         <p>
             The next post will consider space complexity and alpha-beta pruning in the minimax algorithm in more depth. Thanks for reading 👋
         </p>
+        <button id="celebration-button", class="celebration-button">Did you reach the end of the article?</button>
+        <script>
+            const button = document.getElementById('celebration-button');
+                button.addEventListener('click', () => {
+                confetti();
+            });
+            
+            button.addEventListener('click', () => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#ff0000', '#00ff00', '#0000ff']
+                });
+            });
+            document.querySelector('.celebration-button').addEventListener('click', function() {
+                this.textContent = 'Good job 😊';
+                this.style.backgroundColor = '#4CAF50';
+                setTimeout(() => {
+                    this.style.backgroundColor = '#ff5e78';
+                    this.textContent = 'Did you reach the end of the article?';
+                }, 2000);
+            });
+        </script>
         <p class="signature">Rachel Curry</p>
     </div>
 </body>
