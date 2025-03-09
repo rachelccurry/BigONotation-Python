@@ -10,9 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-3.0.0.min.js" charset="utf-8"></script>
 </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script src="graph.js"></script>
 <body>
     <div class="main-text">
         <div id="heading" class="heading">
@@ -24,7 +23,7 @@
     </div>
     <div id="intro-section" class="main-text">
         <p>
-            In computer science, <strong>Big O Notation</strong> is a mathematical format to express the complexity of
+            In computer science, <strong>Big O Notation</strong> is a mathematical format used to express the performance of
             an algorithm. This allows us to determine the <em>time</em> and <em>space</em> that an algorithm will need as its input changes. 
         </p>
         <p>
@@ -46,7 +45,64 @@
         <p>
             Consider the following graph, where <var>n</var> is the size of the input.
         </p>
-        <canvas id="bigOGraph" style="width:100%;max-width:600px"></canvas>
+        <div id="bigOGraph";></div>
+        <script>
+            var trace1 = {
+                x: [0, 1, 2, 3, 4, 5, 6, 7],
+                y: [0, 2, 4, 9, 16, 25, 36, 49],
+                name: 'O(n^2)',
+                type: 'line'
+            };
+            var trace2 = {
+                x: [0, 2, 3, 4, 5, 6, 7, 8],
+                y: [0, 1.39, 3.3, 5.55, 8.05, 10.75, 13.62, 16.64],
+                name: 'O(nlog(n))',
+                type: 'line'
+            };
+            var trace3 = {
+                x: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                y: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                name: 'O(n)',
+                type: 'line'
+            }
+            var trace4 = {
+                x: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                y: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                name: 'O(1)',
+                type: 'line'
+            }
+            var data = [trace1, trace2, trace3, trace4];
+            var layout = {
+                title: {
+                    text:'Big O Notation',
+                    font: {
+                        family: 'Verdana',
+                        size: 20
+                        }
+                },
+                xaxis: {
+                    title: {
+                        text: 'Input Size n',
+                        font: {
+                            family: 'Verdana',
+                            size: 16
+                        }
+                    },
+                    showticklabels: false
+                },
+                yaxis: {
+                    title: {
+                        text: 'Number of Operations',
+                        font: {
+                            family: 'Verdana',
+                            size: 16
+                        }
+                    },
+                    showticklabels: false
+                }
+            };
+            Plotly.newPlot("bigOGraph", data, layout);
+        </script>
         <p>
             If a function does not change the number of operations it performs regardless of input, then the time complexity can 
             be described as <var>O(1)</var>, where the complexity is constant. If the number of operations is directly proportional to the 
@@ -317,8 +373,9 @@
         <p>
             As you may realize, <var>n</var> will change each turn, because the number of possible positions to choose decreases
             each turn. On the first turn, there are nine possible moves on a <em>single</em> board, and the tree does not have any child 
-            nodes yet. So on the first turn, <var>n = n<sup>0</sup> = 1</var>. If there were only one turn in the whole game,
-            the time complexity could be shown as <var>O(1)</var> because it would only have to loop through once. 
+            nodes yet. So on the first turn, <var>n = n<sup>0</sup> = 1</var>. If there were only one turn in the whole game and the algorithm did
+            not recurse into itself, the time complexity could be shown as <var>O(1)</var> because it would only have to loop through once and
+            place the letter. 
         </p>
         <p>
             Even though the number of moves to choose from decreases each turn, the depth of the tree increases and the number of nodes grows
@@ -337,22 +394,48 @@
             the time complexity of the minimax algorithm can be reduced to <var>O(n<sup>d</sup>)</var>, where 
             <var>n</var> is the maximum number of possible spots on the board and <var>d</var> is the maximum depth of the tree that can be created.
         </p>
+        <div class="side-note">
+            <h4 style="margin-top: 5px;">SIDE NOTE</h4>
+            <p>
+                This time complexity technically allows for the possibility of calculating <var>O(9<sup>9</sup>)</var>, since at a point, each variable will be 
+                9. However, this case would not happen, because it allows for a situation where there are nine additional potential moves on the ninth turn, which
+                violates the rules of tic tac toe. 
+            </p>
+        </div>
         <p>
-            The upper bound of the tic tac toe case, <var>O(n<sup>d</sup>)</var>, simplifies to:
-        </p>
-        <p class="math-smaller">
-            O(9<sup>9</sup>) = 387,420,489
+            The minimax algorithm by itself is a very useful algorithm that has a lot of applications. As with most programs though, it can be optimized more 
+            fully than the pseudocode in this article. Even though the upper bound number of game states is <var>9!</var>, there are ways to ensure it never
+            reaches this point, even in the worst case. For example, because tic tac toe is a 3x3 grid, there are many game states that are duplicates of each
+            other or are mirrored. 
         </p>
         <p>
-            This number is <em>way</em> higher than the <var>9!</var> upper bound that we calculated earlier, which is the hypothetical number of possible
-            game states (nodes) in the tree if <code>minimax</code> were to calculate out every possibility. However, keep in mind, this 387,420,489 number of nodes does not 
-            take into account the rules of tic tac toe, and allows for the possibility that on each turn, there are nine additional possible moves, even on the 
-            ninth turn. According to tic tac toe rules, this is impossible.
+            There is also a method called <strong>alpha-beta pruning</strong>, which is a way to ensure sections (branches) of the tree 
+            do not need to be searched. This is done by passing in <code>alpha</code> and <code>beta</code> as additional parameters, which are essentially a lower and upper
+            bound. Every time they are passed in recursively, they act as the best and worst cases that can be guaranteed so far if a move were to be made based on
+            only the previously checked branches. Therefore, the algorithm won't actually check all the branches, since it knows it can already get a better score
+            using a previous branch.
         </p>
     </div>
     <div id="takeaways" class="main-text">
         <h2>Key Takeaways</h2>
-        <p>bleh</p>
+        <p>
+            Within this article, we discussed what Big O Notation is, walked through some examples of it in Python, and did an overview analysis of the Minimax Algorithm,
+            including the maximum number of game states and the time complexity of the algorithm. 
+        </p>
+        <p>
+            Big O Notation is helpful when considering how many operations your algorithm will run depending on the input size. Understanding it can be the difference
+            between an algorithm that runs slowly (or forever) on large input, and one that is more optimized and takes input into consideration. Big O is also used to 
+            analyze the space complexity of algorithms — another important consideration to ensure that you have enough space allocated. 
+        </p>
+        <p>
+            The Minimax Algorithm is also very useful, as it can be implemented in various decision making programs. It allows the computer to fully consider all
+            possible options and make the optimal choice — something that isn't possible in the same manner and at the same speed for the human brain. It's time 
+            complexity and number of game states are pretty significant in the worst case, but taking into account the rules of tic tac toe and other optimization 
+            techniques, it won't need to reach that point in common use. 
+        </p>
+        <p>
+            The next post will consider space complexity and alpha-beta pruning in the minimax algorithm in more depth. Thanks for reading 👋
+        </p>
         <p class="signature">Rachel Curry</p>
     </div>
 </body>
