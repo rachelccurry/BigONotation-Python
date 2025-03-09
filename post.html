@@ -16,22 +16,22 @@
 <body>
     <div class="toc">
         <h4 style="margin-bottom: 0px; padding-left: 20px;">Contents</h4>
-        <ul>
-            <a href="#top"><li>Intro</li></a>
-            <a href="#big-o-explained"><li>Big O Notation</li></a>
-            <a href="#big-o-examples"><li>Big O Python Examples</li></a>
+        <ul class="ul-toc">
+            <a href="#top"><li><span class="li-toc">Intro</span></li></a>
+            <a href="#big-o-explained"><li><span class="li-toc">Big O Notation</span></li></a>
+            <a href="#big-o-examples"><li><span class="li-toc">Big O Python Examples</span></li></a>
             <ul>
-                <a href="#singular-for-loop"><li>Singular <code>for</code> Loop</li></a>
-                <a href="#nested-for-loop"><li>Nested <code>for</code> Loop</li></a>
-                <a href="#iteration-map"><li>Iteration using <code>map</code></li></a>
-                <a href="#iteration-map-filter"><li>Iteration and Filtering Using <code>map</code>and <code>filter</code></li></a>
+                <a href="#singular-for-loop"><li><span class="li-toc">Singular <code>for</code> Loop</span></li></a>
+                <a href="#nested-for-loop"><li><span class="li-toc">Nested <code>for</code> Loop</span></li></a>
+                <a href="#iteration-map"><li><span class="li-toc">Iteration using <code>map</code></span></li></a>
+                <a href="#iteration-map-filter"><li><span class="li-toc">Iteration and Filtering Using <code>map</code>and <code>filter</code></span></li></a>
             </ul>
-            <a href="#minimax"><li>Minimax Algorithm</li></a>
+            <a href="#minimax"><li><span class="li-toc">Minimax Algorithm</span></li></a>
             <ul>
-                <a href="#game-states"><li>Game States</li></a>
-                <a href="#time-complexity"><li>Time Complexity</li></a>
+                <a href="#game-states"><li><span class="li-toc">Game States</span></li></a>
+                <a href="#time-complexity"><li><span class="li-toc">Time Complexity</span></li></a>
             </ul>
-            <a href="#key-takeaways"><li>Key Takeaways</li></a>
+            <a href="#key-takeaways"><li><span class="li-toc">Key Takeaways</span></li></a>
         </ul>
     </div>
     <div class="main-text">
@@ -44,7 +44,7 @@
     </div>
     <div id="intro-section" class="main-text">
         <p>
-            In computer science, <strong>Big O Notation</strong> is a mathematical format used to express the performance of
+            In computer science, <strong>Big O Notation</strong> is a mathematical notation used to express the performance of
             an algorithm. This allows us to determine the <em>time</em> and <em>space</em> that an algorithm will need as its input changes. 
         </p>
         <p>
@@ -172,7 +172,7 @@
                 for j in range(i+1, len(arr)):
                     print(arr[j])</code></pre>
             <p>
-                This function will produce the below output when given <code>arr = [1, 2, 3]</code> as a paramter.
+                This function will produce the below output when given <code>arr = [1, 2, 3]</code> as a parameter.
             </p>
             <pre><code>
                 1
@@ -183,7 +183,7 @@
                 3</code></pre>
             <p>
                 The first time it went through the loop, it printed out <code>1</code>, and then it went into the secondary loop and printed <code>2</code>
-                and <code>3</code>. It went back around and printed <code>2</code> in the outer loop, and then printed <code>3</code> in the inner loop.
+                and <code>3</code>. It went back through and printed <code>2</code> in the outer loop, and then printed <code>3</code> in the inner loop.
                 Lastly, it printed <code>3</code> in the outer loop on its final time around, and since there is no index after that, the inner loop didn't
                 print anything. 
             </p>
@@ -192,10 +192,10 @@
                 the array and prints out the whole thing, except every following time it ignores the next first element. 
             </p>
             <p>
-                If it did not ignore these elements, it would essentially be accessing every element in a <var>n x n</var> matrix and printing them out.
+                If it did not ignore these elements, it would essentially be accessing every element in an <var>n x n</var> matrix and printing them out.
                 If that were the case, the time complexity would be <var>O(n<sup>2</sup>)</var>, because it accesses <var>n</var> elements <var>n</var>
                 times. But considering it ignores half of the elements in the figurative matrix, the time complexity is technically <var>O(n<sup>2</sup>/2)</var>.
-                However, the rule about constants still applies here! The <var>1/2</var> can be removed, because as <var>n</var> approaches infinity, the 
+                However, the rule about constants still applies. The <var>1/2</var> can be removed, because as <var>n</var> approaches infinity, the 
                 <var>1/2</var> becomes arbitrary. Therefore, the time complexity of this nested <code>for</code> loop is <var>O(n<sup>2</sup>)</var>.
             </p>
         </div>
@@ -245,7 +245,7 @@
             </ul>
             <p>
                 The <code>map</code> function is <var>O(n)</var> because it goes through each item in the array once, where <var>n</var>
-                is the length of the array (the same as was shown in the previous example). The <code>lambda</code> function — which is technically a function of its own
+                is the length of the array (as shown in the previous example). The <code>lambda</code> function — which is technically a function of its own
                 inside of the <code>map</code> function — is <var>O(1)</var>, because each time it is called, it performs exactly one operation (doubling the item that's passed into it).
                 Since <var>O(n) > O(1)</var>, we keep the worst case, or <em>upper bound</em>, as was specified previously, which is <var>O(n)</var> where <var>n</var> is the size
                 of the input array <code>arr</code>.
@@ -256,7 +256,7 @@
                 for each element of the array that's passed into it, so <var>n</var> is the size of the array <code>arr</code>.
             </p>
             <p>
-                So now, we have two operations that are both <var>O(n)</var>. It is as simple as it sounds — we just need to add them together. The <code>double_filter</code> function's time
+                Now there are, two operations that are <var>O(n)</var>. It is as simple as it sounds — we just need to add them together. The <code>double_filter</code> function's time
                 complexity is <var>O(2n)</var>. However, the same rule applies for the constant here: we can remove the 2, since it will become arbitrary as <var>n</var> grows. Therefore,
                 the <code>double_filter</code> function's time complexity is <var>O(n)</var> where <var>n</var> is the size of the input array <code>arr</code>.
             </p>
@@ -266,7 +266,7 @@
         <h2>Minimax Algorithm</h2>
         <div id="game-states">
             <h3>Game States</h3>
-            <p>The Minimax Algorithm is an algorithm commonly used in game logic, backtracking, and decision making programs. This algorithm uses the
+            <p>The Minimax Algorithm is commonly used in game logic, backtracking, and decision making programs. This algorithm uses the
                 tree structure to "see" all possible outcomes of a decision making situation and make the optimal choice based on the tree it creates. 
             </p>
             <p>
@@ -340,7 +340,7 @@
             <p>
                 Consider what happens when two players (or in this case, a player and a computer) play tic tac toe. On the first turn, the first player has nine possibilities
                 of spots to place their letter. On the second turn, the player has eight possibilities, because one spot will be taken. On third turn, there will be seven possibilities,
-                and so on. For each of the nine options on the first move, there is eight following potential options. This gives us <var>9 x 8</var> moves. 
+                and so on. For each of the nine options on the first move, there are eight following potential options. This gives us <var>9 x 8</var> moves. 
             </p>
             <p class="math-smaller">
                 (9 options) x (8 options) x (7 options) x ... = 9!
@@ -349,7 +349,7 @@
                 The maximum number of turns there can be, where one turn is one level deeper in the tree, is nine turns. So the maximum tree depth is 9, and the potential
                 number of nodes is pretty significant at <var>9! = 362,880</var> in the worst case scenario. However, this would only happen if the minimax algorithm 
                 needed to compute every single possible game state, which doesn't really happen. This is partially because the game must follow an order of 
-                X→O→X→O and so forth, so it will always have at maximum five Xs and four Os (given that X always goes first). It's also partially because in many cases,
+                X→O→X→O and so forth, so it will always have at most five Xs and four Os (given that X always goes first). It's also partially because in many cases,
                 the game won't actually go to nine turns, so the tree will not need to reach nine levels deep. 
             </p>
         </div>
@@ -429,7 +429,7 @@
                 <var>n</var> is the maximum number of possible spots on the board and <var>d</var> is the maximum depth of the tree that can be created.
             </p>
             <div class="side-note">
-                <h4 style="margin-top: 5px;">SIDE NOTE</h4>
+                <h4 style="margin-top: 5px;">➜ SIDE NOTE</h4>
                 <p>
                     This time complexity technically allows for the possibility of calculating <var>O(9<sup>9</sup>)</var>, since at a point, each variable will be 
                     9. However, this case would not happen, because it allows for a situation where there are nine additional potential moves on the ninth turn, which
