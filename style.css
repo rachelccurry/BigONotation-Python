@@ -131,6 +131,9 @@ td {
     font-size: 12pt;
     line-height: 2;
     background-color: white;
+    border-bottom-right-radius: 25px;
+    border-bottom: 4px solid #d7d8dd;
+    border-right: 4px solid #d7d8dd;
 }
 
 .celebration-button {
