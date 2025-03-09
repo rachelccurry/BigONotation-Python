@@ -167,15 +167,27 @@ td {
 a {
     text-decoration: none;
     color: black;
+    display: block;
 }
 
 .ul-toc {
     list-style-type: none;
+    padding: 0;
+    margin: 5px;
+}
+
+.li-toc {
+    display: block;
+    padding: 7px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .li-toc:hover {
     background-color: #ffe9ed;
-    padding: 7px;
-    border-radius: 4px;
+    /* padding: 7px;
+    border-radius: 4px; */
     border: 2px solid #f4c1cb;
 }
