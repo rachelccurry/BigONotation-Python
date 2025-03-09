@@ -1,7 +1,7 @@
 # Author
 Rachel Curry
 Created: March 6th, 2025
-Last Updated: March 8th, 2025
+Last Updated: March 9th, 2025
 
 # Requirements
 Must be able to open an HTML file in a live server.
